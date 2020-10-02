@@ -6,6 +6,7 @@
 ## The power of the pirates
 
 ##==##
+<!-- .slide: class="full-center" -->
 
 # The new major release of Vue.js is out!
 

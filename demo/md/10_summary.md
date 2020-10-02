@@ -12,6 +12,7 @@
   * Reactivity API
   * Composition API
   * Fragments
+  * Async components
   * Suspense
   * Teleport
 4. Demo 
