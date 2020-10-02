@@ -48,6 +48,8 @@ export default {
 }
 ```
 
+<!-- .element: class="fragment" -->
+
 Component example from [Vue.js' documentation](https://v3.vuejs.org/guide/composition-api-introduction.html#why-composition-api).
 
 Notes:
@@ -60,14 +62,52 @@ Notes:
 
 <!-- .slide: data-type-show="prez" -->
 
-## Sharing logic between componentns
+## Sharing logic between components
 
-TODO: mixin declaration
-TODO: mixin injection
+```js
+// path/to/api/mixin.js
+export default {
+  data() {
+    return {
+      loadingState: '',
+      error: ''
+    }
+  },
+  methods: {
+    async get(url, options) {
+      const response = await fetch(url, options)
+      // [...]
+    }
+  }
+}
+```
+
+<!-- .element: class="fragment" -->
+
+```js
+import ApiMixin from 'path/to/api/mixin';
+
+export default {
+  name: 'UserRepositories',
+  mixins: [ ApiMixin ],
+  // [...]
+  methods: {
+    async getUserRepositories() {
+      const repositories = await this.get('path/to/user/repositories');
+      // [...]
+    }
+  }
+}
+```
+<!-- .element: class="fragment" -->
 
 Notes:
-Downsides:
- - You don't know which mixin injected which options at first sight
+- Share logic by creating mixins
+- Looks just like a component
+- Injected globally or locally
+- Downsides:
+  - You don't know which mixin injected which options at first sight
+  - Overlapping options
 
 ##--##
 
@@ -85,7 +125,7 @@ const filters = ref({ ... });
 const searchQuery = ref('');
 
 const repositoriesMatchingSearchQuery = computed(() => {
-    return repositories.value.map(
+    return repositories.value.filter(
         repository => repository.name.includes(searchQuery.value)
     );
 });
@@ -95,7 +135,11 @@ const repositoriesMatchingSearchQuery = computed(() => {
 watchEffect(() => console.log('updated:', repositoriesMatchingSearchQuery))
 ```
 
+<!-- .element: class="fragment" -->
+
 Complete API available in [the documentation](https://v3.vuejs.org/api/basic-reactivity.html).
+
+<!-- .element: class="fragment" -->
 
 Notes:
 - Already used by developers to create reactive wrappers around file system for instance
@@ -118,13 +162,60 @@ Notes:
 
 ##--##
 
-<!-- .slide: data-type-show="prez" -->
+<!-- .slide: data-type-show="prez" class="with-code" -->
 
 ## Introducting the Composition API
 
-TODO: Code with a setup
+```js
+import { ref, computed, watchEffect } from 'vue';
+
+export default {
+  name: 'UserRepositories',
+  components: { RepositoriesFilters, RepositoriesSortBy, RepositoriesList },
+  props: {
+    user: { type: String }
+  },
+  setup(props) {
+    // 1. Repository fetching
+    const repositories = ref([]);
+
+    const getUserRepositories = (user) => {
+        // using `user` to fetch user repositories
+    }
+
+    // Call getUserRepositories once and again when props.user changes
+    watchEffect(() => getUserRepositories(props.user));
+
+    // 2. Filters
+    const filters = ref({ ... });
+    // ...
+
+    // 3. Search Query    
+    const searchQuery = ref('');
+
+    const repositoriesMatchingSearchQuery = computed(() => {
+        return repositories.value.filter(
+            repository => repository.name.includes(searchQuery.value)
+        );
+    });
+
+    return {
+        repositories,
+        filters,
+        searchQuery,
+        repositoriesMatchingSearchQuery,
+    }
+  }
+}
+```
+
+<!-- .element: class="fragment" -->
 
 Notes:
+- Go through every feature in the setup method
+- Returns every piece of information accessible from the template
+- Method called before `created` hook
+- A word about sharing logic => let's see that right now with a demo
 
 ##--##
 
