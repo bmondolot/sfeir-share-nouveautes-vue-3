@@ -2,7 +2,7 @@
 
 # The technical enhancements
 
-##==##
+##--##
 
 # Native Typescript support !
 
@@ -10,7 +10,7 @@
     <img class="full-height" src="./assets/images/finally.gif">
 </div>
 
-##==##
+##--##
 
 # Harder, better, faster, stronger
 
