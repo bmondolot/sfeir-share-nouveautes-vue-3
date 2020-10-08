@@ -13,10 +13,6 @@
 ### @bmondolot
 <!-- .element: class="icon-twitter icon-second" -->
 
-### mondolot.b@sfeir.com
-
-<!-- .element: class="icon-mail icon-third" -->
-
 ##--##
 
 <!-- .slide: class="speaker-slide" -->
