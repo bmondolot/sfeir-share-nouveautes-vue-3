@@ -222,3 +222,10 @@ Notes:
 <!-- .slide: class="transition" -->
 
 # Demo effect!
+
+Notes:
+1. Go through every part of the current application: too many responsibilities in App, boilerplate code to handle error and loading management
+2. Let's refactor it !
+  - Extract everything in a quote folder, in a RandomQuote.vue component
+  - Use the composition API to sort by feature: RandomQuote is still too big !
+  - Let's extract data fetching logic in an abstract module
