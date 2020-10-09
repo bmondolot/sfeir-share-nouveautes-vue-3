@@ -1,11 +1,7 @@
 import { ref, computed } from 'vue';
 import { LOADING, LOADED, ERROR } from "./states";
 
-export const likeQuote = () => Promise.resolve('ok')
-
-export const dislikeQuote = () => Promise.resolve('ok')
-
-export const useApiCall = (url, options) => {
+export const useApiCall = (url, defaultOptions) => {
     const data = ref({})
     const dataLoadingStatus = ref('')
     const dataLoadingError = ref('')
@@ -14,7 +10,11 @@ export const useApiCall = (url, options) => {
     const dataLoadingIsPending = computed(() => dataLoadingStatus.value === LOADING);
     const dataLoadingFailed = computed(() => dataLoadingStatus.value === ERROR);
 
-    const call = () => {
+    const call = (callOptions) => {
+        const options = {
+            ...defaultOptions,
+            ...callOptions,
+        }
         dataLoadingStatus.value = LOADING
         return fetch(url, options)
             .then((response) => {
@@ -42,9 +42,3 @@ export const useApiCall = (url, options) => {
         dataLoadingError,
     }
 }
-
-export const useRandomQuoteApi = () => useApiCall(process.env.VUE_APP_API_URL, {
-    headers: new Headers({
-        'Authorization': process.env.VUE_APP_API_AUTHORIZATION
-    })
-})

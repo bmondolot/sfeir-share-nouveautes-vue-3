@@ -2,44 +2,48 @@
   <p v-if="quoteLoadingFailed">Quote loading error: {{ quoteLoadingError }}</p>
   <p v-else-if="quoteLoadingIsPending">Loading...</p>
   <p v-else-if="quoteLoaded">{{ quote.content }} - {{ quote.author }}</p>
-  <button @click="quoteLiked">👍</button>
-  <button @click="quoteDisliked">👎</button>
+  <button @click="quoteLiked" :disabled="quoteReviewLoadingIsPending">👍</button>
+  <button @click="quoteDisliked" :disabled="quoteReviewLoadingIsPending">👎</button>
+  <p v-if="quoteReviewError">Quote review error</p>
 </template>
 
 <script>
-import { likeQuote, dislikeQuote, useRandomQuoteApi } from "../api";
+import { useRandomQuoteFeature, useQuoteReviewFeature } from "./quote";
 
 export default {
   name: "random-quote",
   setup() {
     // Quote loading feature
-    const quoteLoadingFeature = useRandomQuoteApi()
-    quoteLoadingFeature.call();
+    const quoteLoadingFeature = useRandomQuoteFeature()
+    quoteLoadingFeature.getRandomQuote();
+    const quote = quoteLoadingFeature.data
+
+    // Quote review feature
+    const quoteReviewFeature = useQuoteReviewFeature()
+
+    const quoteLiked = () => {
+      quoteReviewFeature
+        .reviewQuote(quote.value)(true)
+        .then(() => quoteLoadingFeature.getRandomQuote());
+    }
+
+    const quoteDisliked = () => quoteReviewFeature
+      .reviewQuote(quote.value)(false)
+      .then(() => quoteLoadingFeature.getRandomQuote());
 
     return {
-      quote: quoteLoadingFeature.data,
+      quote,
       quoteLoadingError: quoteLoadingFeature.dataLoadingError,
       quoteLoaded: quoteLoadingFeature.dataIsLoaded,
       quoteLoadingIsPending: quoteLoadingFeature.dataLoadingIsPending,
       quoteLoadingFailed: quoteLoadingFeature.dataLoadingFailed,
-      getNextQuote: quoteLoadingFeature.call,
+      getNextQuote: quoteLoadingFeature.getRandomQuote,
+
+      quoteLiked,
+      quoteDisliked,
+      quoteReviewLoadingIsPending: quoteReviewFeature.dataLoadingIsPending,
+      quoteReviewError: quoteReviewFeature.dataLoadingError
     }
-  },
-  data() {
-    return {
-      // TODO: like / dislike loading status & error...
-    };
-  },
-  computed: {
-    // TODO: like / dislike computed properties based on the status & error
-  },
-  methods: {
-    quoteLiked() {
-      likeQuote().then(() => this.getNextQuote());
-    },
-    quoteDisliked() {
-      dislikeQuote().then(() => this.getNextQuote());
-    },
   },
 };
 </script>
