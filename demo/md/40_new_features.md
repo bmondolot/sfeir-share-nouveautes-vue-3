@@ -2,17 +2,7 @@
 
 # The new features
 
-Notes: not introducing the Composition & Reactivity APIs first
-
-##--##
-<!-- .slide: class="blue" -->
-
-## The Reactivity API
-
-##--##
-<!-- .slide: class="blue" -->
-
-## The Composition API
+Notes: Composition & Reactivity APIs introduced last
 
 ##--##
 <!-- .slide: class="blue with-code" -->
