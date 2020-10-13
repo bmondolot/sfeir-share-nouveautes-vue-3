@@ -2,6 +2,8 @@
 
 # The new features
 
+Notes: not introducing the Composition & Reactivity APIs first
+
 ##--##
 <!-- .slide: class="blue" -->
 

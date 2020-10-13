@@ -113,7 +113,7 @@ Notes:
 
 <!-- .slide: data-type-show="prez" class="with-code" -->
 
-## Introducting the Reactivity APIs
+## Introducing the Reactivity APIs
 
 A new API to use Vue's reactivity outside of a Vue instance!
 
@@ -149,7 +149,7 @@ Notes:
 
 <!-- .slide: data-type-show="prez" -->
 
-## Introducting the Composition API
+## Introducing the Composition API
 
 <div style="height:600px; width:100%">
     <img class="full-height center" src="https://firebasestorage.googleapis.com/v0/b/vue-mastery.appspot.com/o/flamelink%2Fmedia%2F1570466251996_04-logical-concerns.jpg?alt=media&token=da79b1b0-c956-4dae-aaa8-d22e67ec1714">
@@ -164,7 +164,7 @@ Notes:
 
 <!-- .slide: data-type-show="prez" class="with-code" -->
 
-## Introducting the Composition API
+## Introducing the Composition API
 
 ```js
 import { ref, computed, watchEffect } from 'vue';
