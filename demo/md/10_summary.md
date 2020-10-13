@@ -9,10 +9,10 @@
 1. A quick history
 2. The technical enhancements
 3. The new features
-  * Reactivity API
-  * Composition API
   * Fragments
   * Async components
   * Suspense
   * Teleport
+  * Reactivity API
+  * Composition API
 4. Demo 
