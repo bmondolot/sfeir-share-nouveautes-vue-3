@@ -113,7 +113,7 @@ Notes:
 
 <!-- .slide: data-type-show="prez" class="with-code" -->
 
-## Introducing the Reactivity APIs
+## Introducing the Reactivity API
 
 A new API to use Vue's reactivity outside of a Vue instance!
 

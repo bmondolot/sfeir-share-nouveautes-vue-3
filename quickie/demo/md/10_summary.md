@@ -15,4 +15,3 @@
   * Teleport
   * Reactivity API
   * Composition API
-4. Demo 

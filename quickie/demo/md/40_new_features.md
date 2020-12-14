@@ -172,3 +172,107 @@ app.config.globalProperties.$filters = {
 
 Notes: because now it's easy to define global function that can be used across the application. 
 You can implement Vuex yourself easily. 
+
+##--##
+<!-- .slide: class="blue with-code" -->
+
+## Introducing the Reactivity API
+
+A new API to use Vue's reactivity outside of a Vue instance!
+
+```js
+import { ref, computed, watchEffect } from 'vue';
+
+const repositories = ref([]);
+const filters = ref({ ... });
+const searchQuery = ref('');
+
+const repositoriesMatchingSearchQuery = computed(() => {
+    return repositories.value.filter(
+        repository => repository.name.includes(searchQuery.value)
+    );
+});
+
+watchEffect(() => console.log('updated:', repositoriesMatchingSearchQuery))
+```
+
+<!-- .element: class="fragment" -->
+
+Complete API available in [the documentation](https://v3.vuejs.org/api/basic-reactivity.html).
+
+<!-- .element: class="fragment" -->
+
+Notes:
+- Already used by developers to create reactive wrappers around file system for instance
+- Can be also used to replace Vuex by creating a data store outside of your components and consume the data using the Composition API... 
+
+##--##
+<!-- .slide: class="blue with-code" -->
+
+## Introducing the Composition API
+
+<div style="height:600px; width:100%">
+    <img class="full-height center" src="https://firebasestorage.googleapis.com/v0/b/vue-mastery.appspot.com/o/flamelink%2Fmedia%2F1570466251996_04-logical-concerns.jpg?alt=media&token=da79b1b0-c956-4dae-aaa8-d22e67ec1714">
+</div>
+
+Schema from [Vue Mastery's course](https://www.vuemastery.com/courses/vue-3-essentials/why-the-composition-api/).
+
+Notes:
+- Feature splitting instead of technical splitting
+- Addition of a new `setup` method in components
+
+##--##
+<!-- .slide: class="blue with-code" -->
+
+## Introducing the Composition API
+
+```js
+import { ref, computed, watchEffect } from 'vue';
+
+export default {
+  name: 'UserRepositories',
+  components: { RepositoriesFilters, RepositoriesSortBy, RepositoriesList },
+  props: {
+    user: { type: String }
+  },
+  setup(props) {
+    // 1. Repository fetching
+    const repositories = ref([]);
+
+    const getUserRepositories = (user) => {
+        // using `user` to fetch user repositories
+    }
+
+    // Call getUserRepositories once and again when props.user changes
+    watchEffect(() => getUserRepositories(props.user));
+
+    // 2. Filters
+    const filters = ref({ ... });
+    // ...
+
+    // 3. Search Query    
+    const searchQuery = ref('');
+
+    const repositoriesMatchingSearchQuery = computed(() => {
+        return repositories.value.filter(
+            repository => repository.name.includes(searchQuery.value)
+        );
+    });
+
+    return {
+        repositories,
+        filters,
+        searchQuery,
+        repositoriesMatchingSearchQuery,
+    }
+  }
+}
+```
+
+<!-- .element: class="fragment" -->
+
+Notes:
+- Go through every feature in the setup method
+- Returns every piece of information accessible from the template
+- Method called before `created` hook
+- A word about sharing logic => a simple JS module using Reactivity API to expose a feature, consumed by a component using the Composition API
