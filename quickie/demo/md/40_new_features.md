@@ -276,3 +276,48 @@ Notes:
 - Returns every piece of information accessible from the template
 - Method called before `created` hook
 - A word about sharing logic => a simple JS module using Reactivity API to expose a feature, consumed by a component using the Composition API
+
+
+##--##
+<!-- .slide: class="blue with-code" -->
+
+## Introducing the Composition API
+
+```js
+import { useRepositoriesFeature, useRepositoriesFiltersFeature, useRepositoriesSearchFeature } from './features.js'
+
+export default {
+  name: 'UserRepositories',
+  components: { RepositoriesFilters, RepositoriesSortBy, RepositoriesList },
+  props: {
+    user: { type: String }
+  },
+  setup(props) {
+    // 1. Repository fetching
+    const repositoriesFeature = useRepositoriesFeature(props.user)
+    
+    // 2. Filters
+    const repositoriesFiltersFeature = useRepositoriesFiltersFeature(repositoriesFeature.repositories)
+
+    // 3. Search Query
+    const repositoriesSearchFeature = useRepositoriesSearchFeature(repositoriesFeature.repositories)
+
+    // [...] Combine repositoriesFiltersFeature.repositoriesMatchingFilters and repositoriesSearchFeature.repositoriesMatchingSearchQuery ?
+
+    return {
+        repositories: repositoriesFeature.repositories,
+        filters: repositoriesFiltersFeature.filters,
+        repositoriesMatchingFilters: repositoriesFiltersFeature.repositoriesMatchingFilters,
+        searchQuery: repositoriesSearchFeature.searchQuery,
+        repositoriesMatchingSearchQuery: repositoriesSearchFeature.repositoriesMatchingSearchQuery,
+    }
+  }
+}
+```
+
+<!-- .element: class="fragment" -->
+
+Notes:
+- The logic is easier to test since it is out of a Vue instance
+- Compose with different features as you need
+- EXPLICIT: You know where every piece of information comes from, unlike mixins
