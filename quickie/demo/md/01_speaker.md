@@ -7,11 +7,14 @@
 
 <h2>Bertrand <span>Mondolot</span></h2>
 
-### Tech Lead Java / Javascript
+### Tech Lead Java / JavaScript
 <!-- .element: class="icon-rule icon-first" -->
 
 ### @bmondolot
 <!-- .element: class="icon-twitter icon-second" -->
+
+### "Parlons Front !" community
+<!-- .element: class="icon-chrome icon-third" -->
 
 ##--##
 
@@ -29,3 +32,6 @@
 
 ### @Thomas_Ferro_md
 <!-- .element: class="icon-twitter icon-second" -->
+
+### "Parlons Front !" community
+<!-- .element: class="icon-chrome icon-third" -->
